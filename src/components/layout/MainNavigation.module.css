@@ -1,0 +1,152 @@
+.backdrop {
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  width: 100%;
+  height: 100vh;
+  z-index: 8;
+}
+
+.header {
+  height: 6rem;
+  width: 100%;
+  background-color: var(--primaryFontColor);
+  padding: 0 5%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.header-container {
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  max-width: 800px;
+  display: flex;
+  align-items: center;
+}
+
+
+
+.logo {
+  margin: 0 auto;
+}
+.toggle {
+  cursor: pointer;
+}
+
+.header nav {
+  display: none;
+}
+
+.header ul li {
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%; /* 12px */
+}
+
+.header ul li:hover {
+  border: 1px solid #f4d419;
+  background: #f4d419;
+  color: var(--primaryFontColor);
+}
+
+@media only screen and (min-width: 576px)  {
+  .header {
+    padding-inline: 5%;
+  }
+  .header-container {
+    justify-content: space-between;
+  }
+
+  .logo {
+    margin: 0;
+  }
+  .toggle {
+    display: none;
+  }
+  .header nav {
+    display: block;
+  }
+  .header ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4rem;
+  }
+
+  .header ul li {
+    color: #f4d419;
+    border-radius: 100px;
+    border: 1px solid #f4d419;
+    padding: 1rem 2rem;
+    font-family: Montserrat;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+  }
+  .menu {
+    display: none;
+  }
+}
+
+.menu {
+  display: none;
+  z-index: 9;
+  position: fixed;
+  margin-top: 6rem;
+  width: 100%;
+  transform: translateY(-12rem);
+  transition: all 0.6s ease;
+}
+
+.menu ul {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.menu li {
+  width: 100%;
+  background: linear-gradient(0deg, #f5f5f7 0%, #f5f5f7 100%);
+  border-bottom: 1px solid #d8d8d8;
+
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu a:hover {
+  background-color: #f4d419;
+}
+
+.menu li:last-child {
+  border-bottom: none;
+}
+
+.menu li a {
+  padding: 2rem;
+  width: 100%;
+  text-align: center;
+  display: block;
+  color: #0c3054;
+  font-family: Montserrat;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.menu.show {
+  display: block;
+  transform: translateY(0);
+}
+

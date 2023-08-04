@@ -1,0 +1,367 @@
+.banner {
+  background: url("../assets/Banner.svg") center/cover no-repeat;
+  object-fit: fill;
+  height: 100vh;
+  width: 100%;
+  z-index: 0;
+  position: relative;
+}
+
+.banner .info {
+  height: 100vh;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+@media only screen and (min-width: 576px) {
+  .banner {
+    height: 39rem;
+  }
+  .banner .info {
+    height: 39rem;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .banner {
+    height: 50.7rem;
+  }
+  .banner .info {
+    height: 50.7rem;
+  }
+}
+
+.banner h1 {
+  grid-column: 1/11;
+  grid-row: 5/7;
+  padding-inline: 1%;
+  width: 100%;
+  z-index: 3;
+  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 3rem;
+  font-size: 50px;
+
+}
+
+@media (min-width: 374px) {
+  .banner h1 {
+    font-size: 55px;
+    margin: 0 auto;
+  }
+
+}
+
+.banner h3 {
+  width: 100%;
+  grid-column: 1/11;
+  margin: 0 auto;
+  grid-row: 9/10;
+  z-index: 3;
+  font-size: 17px;
+  letter-spacing: 3px;
+  font-weight: 700;
+  max-width: 505px;
+}
+
+@media only screen and (min-width: 576px) and (max-width: 1023px) {
+  .banner h1 {
+    grid-column: 1/11;
+    grid-row: 6/7;
+    font-weight: 900;
+    margin-bottom: 0;
+    white-space: pre-line;
+    width: 100%;
+    
+  }
+
+  .banner h3 {
+    grid-row: 7/8;
+    grid-column: 3/9;
+    font-size: 2rem;
+    padding-top: 1rem;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .banner h1 {
+    grid-column: 2/10;
+    grid-row: 5/6;
+    width: 100%;
+    font-size: 75px;
+    padding: 0;
+    line-height: 90%;
+    margin-bottom: 2.3rem;
+    max-width: 1058px;
+  }
+
+  .banner h3 {
+    grid-row: 6/7;
+    grid-column: 4/8;
+    margin: 0 auto;
+    /* width: 50rem; */
+    font-size: 24px;
+  }
+}
+
+.decoration {
+  z-index: 2;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  max-height: 35rem;
+  width: 100%;
+  height: 100%;
+  top: 55%;
+  left: 50%;
+  translate: -50% -50%;
+  background: url("../assets/Group 4.svg") center/cover no-repeat;
+  background-position: -5em;
+}
+
+@media (min-width: 576px) {
+  .decoration {
+    top: 55%;
+    background-position: 0;
+    max-height: 27rem;
+    max-width: 46rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .decoration {
+    top: 45%;
+    background-position: center;
+    max-height: 40rem;
+    max-width: 67rem;
+  }
+}
+/* Introduccion */
+
+.introduction {
+  text-align: center;
+  background: #f5f5f7;
+}
+
+.introduction-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 90%;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.introduction h1 {
+  width: 100%;
+  color: #0c3054;
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 45px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 100%; /* 45px */
+  text-transform: none;
+  font-variant: none;
+  margin-top: 7rem;
+}
+
+.introduction h4 {
+  margin-bottom: 5rem;
+  text-align: start;
+  margin: 0 auto;
+  margin-bottom: 7rem;
+  max-width: 893.414px;
+}
+
+@media (min-width: 576px) {
+  .introduction h4 {
+    text-align: center;
+  }
+}
+
+@media (min-width: 1024px){
+  .introduction h1 {
+    margin-bottom: 2rem;
+  }
+}
+
+/* Advantage */
+
+.advantage-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.advantage {
+  background: url("../assets/Rectangle 28.png") center/cover no-repeat;
+  height: auto;
+  width: 100%;
+  padding-block: 6.5rem;
+}
+
+.advantage-container .logo {
+  width: 111.446px;
+  height: 76.924px;
+  margin: 3rem;
+  margin-top: 0;
+}
+
+@media (min-width: 1024px) {
+  .advantage-container .logo {
+    margin-bottom: 0;
+  }  
+}
+
+.advantage-container .advantage-title {
+  margin-bottom: 2rem;
+}
+
+.advantage-container .advantage-description {
+  color: var(--secondaryFontColor);
+  text-align: center;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0;
+  margin-bottom: 3rem;
+}
+
+@media only screen and (min-width: 1024px) {
+  .advantage-container .advantage-description {
+    margin-bottom: 0.3rem;
+  }
+  .advantage-container .advantage-title {
+    margin-bottom: 2rem;
+    max-width: 50rem;
+  }
+}
+.advantage-container .advantage-description:last-of-type {
+  margin-bottom: 0;
+}
+
+.hr {
+  margin-block: 7rem;
+  width: 80%;
+  max-width: 130rem;
+  height: 4px;
+  background-image: linear-gradient(to right, #26bbab, #f4d419);
+  border: none;
+}
+
+.advantage-container .logo-smabit {
+  width: 205.237px;
+  height: 48.956px;
+  margin: 0;
+}
+
+@media (min-width: 1024px) {
+  
+.advantage-container .logo-smabit {
+  margin-bottom: 0;
+}
+
+}
+
+/* talent-pool */
+
+.talent-pool {
+  background-color: #f5f5f9;
+}
+
+.talent-pool_info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.talent-pool_info .parenthesis {
+  display: none;
+}
+@media only screen and (min-width: 576px) {
+  .talent-pool_info .parenthesis {
+    display: inline;
+  }
+}
+
+.talent-pool .container-talent {
+  margin-top: 7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0 auto;
+  max-width: 1200px;
+  text-align: center;
+}
+.container-talent .container-title {
+  margin-top: 7rem;
+}
+
+.brand {
+  margin-bottom: 8px;
+  margin: 0 auto;
+}
+
+@media only screen and (min-width: 576px) {
+  .brand {
+    max-width: 40rem;
+    padding-inline: 1rem;
+    margin-bottom: 1rem;
+    font-size: 30px;
+  }
+}
+
+.brand-talent {
+  margin-top: 0;
+}
+
+/* Offers */
+
+.offers {
+  background-color: #f5f5f9;
+  padding-bottom: 7rem;
+}
+
+.offer-title {
+  letter-spacing: 1.35px;
+  width: 80%;
+  margin-bottom: 5rem;
+}
+
+.offers-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 1200px;
+  gap: 3rem;
+}
+
+
+@media only screen and (min-width: 576px) {
+  .offers-list {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    align-items: center;
+    justify-items: center;
+    row-gap: 3rem;
+    column-gap: 0;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .offers-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 3rem;
+  }
+}

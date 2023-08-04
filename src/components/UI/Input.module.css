@@ -1,0 +1,25 @@
+form .input {
+  border-radius: 5px;
+  border: 1px solid #d8d8d8;
+  padding: 1.2rem;
+  width: 100%;
+  background-color: transparent;
+}
+
+form .input::placeholder {
+  color: #afafaf;
+  font-family: Montserrat;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 130%; /* 19.5px */
+}
+
+form .input:focus{
+  outline: none;
+  border-color: #F4D419;
+}
+
+.file{
+    appearance: none;
+}
