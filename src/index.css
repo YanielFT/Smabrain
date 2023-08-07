@@ -139,3 +139,13 @@ h4 {
     display: block;
   }
 }
+
+/* form */
+.input-error{
+  border-color: #b40e0e !important;
+}
+
+.text-error {
+  color: #b40e0e;
+  font-size: small;
+ }

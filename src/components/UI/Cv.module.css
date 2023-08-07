@@ -16,3 +16,8 @@
     opacity: 0;
     transform: translate(-120rem);
 }
+
+.focus{
+    outline: none;
+    border-color: #F4D419;
+  }

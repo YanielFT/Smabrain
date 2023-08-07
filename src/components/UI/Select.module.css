@@ -21,5 +21,8 @@
     background-position: right 12px  top 50%  ;
   }
 
-
+  .focus{
+    outline: none;
+    border-color: #F4D419;
+  }
   

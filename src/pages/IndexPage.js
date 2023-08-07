@@ -7,15 +7,15 @@ import { Offer } from "../components/Offers/Offer";
 export const IndexPage = () => {
   return (
     <>
-      <section className={classes.banner}>
+     <section className={classes.banner}>
         <div className={classes.decoration}></div>
 
         <div className={classes.info}>
 
-          <h1>Una oportunidad <br className="tablet"/> que no <br className="mobile"/> puedes dejar <br className="mobile"/> pasar</h1>
+          <h1>Una oportunidad <br className="tablet"/> <br className="pc"/> que no <br className="mobile"/>  puedes dejar <br className="mobile"/> pasar</h1>
           <h3>Tu Talento <br/> siempre es bienvenido</h3>
         </div>
-      </section>
+      </section> 
 
       <section className={classes.introduction}>
         <div className={classes['introduction-container']}>

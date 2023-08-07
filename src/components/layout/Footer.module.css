@@ -72,6 +72,13 @@
 
 @media only screen and (min-width: 576px)  {
   .contact-container {
+    gap: 2.5rem;
+    align-items: end;
+    margin-left: 1rem;
+  }
+}
+@media only screen and (min-width: 900px)  {
+  .contact-container {
     gap: 4rem;
     align-items: end;
   }
@@ -175,7 +182,7 @@
 
 @media  (min-width: 576px)  and (max-width: 1023px) {
   .only-desktop hr {
-    width: 95%;
+    width: 91%;
   }
 }
 
