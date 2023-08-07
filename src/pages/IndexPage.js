@@ -108,7 +108,7 @@ export const IndexPage = () => {
               />
             </svg>
 
-            <div className={classes["container-title"]}>
+            <div id="talent-pool" className={classes["container-title"]}>
               <h2 className={`primary-color ${classes.brand}`}>
                 Si estás interesado <br/> en pertenecer a nuestro{" "}
               </h2>
@@ -139,7 +139,7 @@ export const IndexPage = () => {
       </section>
 
       <section className={classes.offers}>
-        <div className={classes["advantage-container"]}>
+        <div id="empleo" className={classes["advantage-container"]}>
           <h1 className={`font-gradient ${classes["offer-title"]}`}>
             OFERTAS DE EMPLEO
           </h1>

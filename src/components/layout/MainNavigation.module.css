@@ -41,7 +41,7 @@
   display: none;
 }
 
-.header ul li {
+.header li a{
   text-align: center;
   font-family: Montserrat;
   font-size: 12px;
@@ -50,7 +50,7 @@
   line-height: 100%; /* 12px */
 }
 
-.header ul li:hover {
+.header li:hover a{
   border: 1px solid #f4d419;
   background: #f4d419;
   color: var(--primaryFontColor);
@@ -80,7 +80,7 @@
     gap: 4rem;
   }
 
-  .header ul li {
+  .header li a{
     color: #f4d419;
     border-radius: 100px;
     border: 1px solid #f4d419;

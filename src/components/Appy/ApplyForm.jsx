@@ -4,6 +4,7 @@ import { Select } from "../UI/Select";
 import { Cv } from "../UI/Cv";
 import useInput from "../../hooks/use-input";
 import useFile from "../../hooks/use-file";
+import LoadingSpinner from "../UI/LoadingSpinner";
 import classes from "../Appy/ApplyForm.module.css";
 
 const OPTIONS = [
@@ -21,7 +22,9 @@ const OPTIONS = [
   },
 ];
 
+
 export const ApplyForm = () => {
+
   const {
     value: nameValue,
     hasError: hasNameError,
@@ -79,7 +82,6 @@ export const ApplyForm = () => {
         }
       }
     }
-    console.log(resp);
     return resp;
   };
 
@@ -92,13 +94,12 @@ export const ApplyForm = () => {
   } = useFile(cvValidation);
 
   const sendData = async () => {
-   
-     const body = new FormData();
+    const body = new FormData();
     body.append("file", cvValue.target.files[0]);
     body.append("fullName", nameValue);
     body.append("email", emailValue);
     body.append("phone", phoneValue);
-    body.append("specialty", espcValue)
+    body.append("specialty", espcValue);
     body.append("studies", studiesValue);
 
     const response = await fetch("http://localhost:8080/api/v1/contacts/save", {
@@ -149,6 +150,9 @@ export const ApplyForm = () => {
       onSubmit={submitedHanlder}
       encType="multipart/form-data"
     >
+      {/* <div className="loading">
+        <LoadingSpinner />
+      </div> */}
       <Input
         type="text"
         id="nombre"
@@ -200,8 +204,8 @@ export const ApplyForm = () => {
         placeholder="Adjunte su CV en formato PDF"
         setValue={cvChangeHandler}
         ref={cvRef}
-  
-  />
+        value = {cvValue}
+      />
       <ApplyButton>Aplicar</ApplyButton>
     </form>
   );

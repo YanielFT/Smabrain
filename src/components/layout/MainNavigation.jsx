@@ -36,8 +36,8 @@ export const MainNavigation = () => {
         </svg>
         <nav className={classes.nav}>
           <ul>
-            <li>Talent Pool</li>
-            <li>Ofertas de Empleo</li>
+            <li><a href="/#talent-pool">Talent Pool</a></li>
+            <li><a href="/#empleo">Ofertas de Empleo</a></li>
           </ul>
         </nav>
         </div>
@@ -45,8 +45,8 @@ export const MainNavigation = () => {
 
       <nav className={`${classes['menu']} ${toggle ? classes['show'] : ''}`}>
           <ul>
-            <li><a href="#">Talent Pool</a></li>
-            <li><a href="#">Ofertas de Empleo</a></li>
+            <li><a href="#talent-pool">Talent Pool</a></li>
+            <li><a href="#empleo">Ofertas de Empleo</a></li>
           </ul>
         </nav>
     </>
