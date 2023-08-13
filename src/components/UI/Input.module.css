@@ -20,6 +20,10 @@ form .input:focus{
   border-color: #F4D419;
 }
 
+form .input:invalid{
+  border-color: #ff6363 !important;
+}
+
 .file{
     appearance: none;
 }

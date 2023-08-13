@@ -141,16 +141,11 @@ h4 {
 }
 
 /* form */
-.input-error{
+.input-error {
   border-color: #ff6363 !important;
 }
 
-.text-error {
-  color: #b40e0e;
-  font-size: small;
- }
-
- .loading {
+.loading {
   position: fixed;
   top: 0;
   left: 0;
@@ -162,4 +157,27 @@ h4 {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+
+#tableHead {
+  background-color: var(--primaryFontColor);
+}
+
+#tableHead span {
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #f4d419;
+  padding-block: 0.6rem;
+}
+
+#tableTitle{
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--primaryFontColor);
+  text-align: center;
+}
+
+.recaptcha {
+  margin-block: 1rem;
 }

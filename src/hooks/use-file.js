@@ -1,5 +1,20 @@
 import { useRef, useReducer } from "react";
 
+const cvValidation = (value) => {
+    let resp = true;
+    if (value.target !== undefined) {
+      if (value.target.files.length > 0) {
+        if (
+          value.target.files[0].size > 0 &&
+          value.target.files[0].size <= 3145728
+        ) {
+          resp = false;
+        }
+      }
+    }
+    return resp;
+  };
+
 const initialInputState = {
     value: '',
     isTouched: false,
@@ -10,11 +25,11 @@ const inputReducer = (state, action) => {
     }
     return initialInputState;
 }
-const useFile = (validateValue) =>{
+const useFile = () =>{
    const [inputState,dispatchInput] = useReducer(inputReducer, initialInputState);
    const inputRef = useRef('');
    
-   const isValid = validateValue(inputState.value);
+   const isValid = cvValidation(inputState.value);
    const hasError = !isValid && inputState.isTouched;
 
     const onChange = (e) => {

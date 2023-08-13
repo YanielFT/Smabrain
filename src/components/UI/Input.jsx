@@ -2,7 +2,7 @@ import classes from "./Input.module.css";
 import React from "react";
 
 export const Input = React.forwardRef(
-  ({ type, id,value, onChange, onBlur, placeholder, className }, ref) => {
+  ({ type, id,value, onChange, onBlur, placeholder, className,pattern }, ref) => {
     return (
       <>
         <input
@@ -13,6 +13,7 @@ export const Input = React.forwardRef(
           onChange={onChange}
           onBlur={onBlur}
           placeholder={placeholder}
+          pattern={pattern}
           ref={ref}
           key={id}
         />

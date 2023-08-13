@@ -6,6 +6,13 @@ import useInput from "../../hooks/use-input";
 import useFile from "../../hooks/use-file";
 import LoadingSpinner from "../UI/LoadingSpinner";
 import classes from "../Appy/ApplyForm.module.css";
+import { saveContact } from "../../lib/api";
+import { forwardRef, useEffect, useRef, useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
+import useHttp from "../../hooks/use-http";
+import Snackbar from "@mui/material/Snackbar";
+import { useFeedback } from "../../hooks/use-feedback";
+import MuiAlert from "@mui/material/Alert";
 
 const OPTIONS = [
   {
@@ -21,9 +28,24 @@ const OPTIONS = [
     name: "Bachiller",
   },
 ];
-
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export const ApplyForm = () => {
+  const captchaRef = useRef(null);
+  const { data, sendRequest, status, error } = useHttp(saveContact);
+
+  /* Feedback hooks */
+  const [open, setOpen] = useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+  const { key, message, type, sendFeed } = useFeedback();
 
   const {
     value: nameValue,
@@ -50,7 +72,7 @@ export const ApplyForm = () => {
     onChange: phoneChangeHandler,
     inputRef: phoneRef,
     reset: resetPhone,
-  } = useInput((value) => value.trim().length === 8);
+  } = useInput((value) => value.trim().length >=8 );
 
   const {
     value: studiesValue,
@@ -70,50 +92,19 @@ export const ApplyForm = () => {
     reset: resetEspc,
   } = useInput((value) => value.trim().length > 0);
 
-  const cvValidation = (value) => {
-    let resp = true;
-    if (value.target !== undefined) {
-      if (value.target.files.length > 0) {
-        if (
-          value.target.files[0].size > 0 &&
-          value.target.files[0].size <= 3145728
-        ) {
-          resp = false;
-        }
-      }
-    }
-    return resp;
-  };
-
   const {
     value: cvValue,
     hasError: hasCvError,
     onChange: cvChangeHandler,
     inputRef: cvRef,
     reset: resetCv,
-  } = useFile(cvValidation);
-
-  const sendData = async () => {
-    const body = new FormData();
-    body.append("file", cvValue.target.files[0]);
-    body.append("fullName", nameValue);
-    body.append("email", emailValue);
-    body.append("phone", phoneValue);
-    body.append("specialty", espcValue);
-    body.append("studies", studiesValue);
-
-    const response = await fetch("http://localhost:8080/api/v1/contacts/save", {
-      method: "POST",
-      body,
-    });
-    const data = await response.json();
-    console.log(data);
-  };
+  } = useFile();
 
   const submitedHanlder = (e) => {
     e.preventDefault();
+    const token = captchaRef.current.getValue();
+    captchaRef.current.reset();
 
-    console.log(hasCvError);
     if (!hasNameError) {
       nameRef.current.focus();
     } else if (!hasEmailError) {
@@ -127,22 +118,33 @@ export const ApplyForm = () => {
     } else if (!hasCvError) {
       cvRef.current.focus();
     } else {
-      sendData();
+      sendRequest({
+        cvValue,
+        nameValue,
+        emailValue,
+        phoneValue,
+        espcValue,
+        studiesValue,
+        token,
+      });   
+    }
+  };
+
+  useEffect(() => {
+    if (!error && status === "completed") {
+      sendFeed("SUCCESS", data);
+      setOpen(true);
       resetName();
       resetCv();
       resetEmail();
       resetPhone();
       resetStudies();
       resetEspc();
+    } else if (error && status === "completed") {
+      sendFeed("ERROR", error);
+      setOpen(true);
     }
-  };
-
-  // const uploadFile = (e) => {
-  //   setCvValue(e);
-  // };
-
-  // console.log(hasCvError);
-  // const classesCv = hasCvError ?   "input-error" : "" ;
+  }, [data, error, status, sendFeed]);
 
   return (
     <form
@@ -150,9 +152,11 @@ export const ApplyForm = () => {
       onSubmit={submitedHanlder}
       encType="multipart/form-data"
     >
-      {/* <div className="loading">
-        <LoadingSpinner />
-      </div> */}
+      {status === "pending" && (
+        <div className="loading">
+          <LoadingSpinner />
+        </div>
+      )}
       <Input
         type="text"
         id="nombre"
@@ -180,6 +184,7 @@ export const ApplyForm = () => {
         onChange={phoneChangeHandler}
         onBlur={phoneBlurHandler}
         ref={phoneRef}
+        pattern='(\d{8})'
       />
       <Select
         options={OPTIONS}
@@ -204,8 +209,23 @@ export const ApplyForm = () => {
         placeholder="Adjunte su CV en formato PDF"
         setValue={cvChangeHandler}
         ref={cvRef}
-        value = {cvValue}
+        value={cvValue}
       />
+      <ReCAPTCHA
+        sitekey={process.env.REACT_APP_SITE_KEY}
+        ref={captchaRef}
+      />
+      <Snackbar
+        key={key}
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity={type} sx={{ width: "100%" }}>
+          {message}
+        </Alert>
+      </Snackbar>
+
       <ApplyButton>Aplicar</ApplyButton>
     </form>
   );

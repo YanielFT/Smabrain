@@ -182,13 +182,14 @@
 
 @media  (min-width: 576px)  and (max-width: 1023px) {
   .only-desktop hr {
-    width: 93%;
+    width: 100%;
+    max-width: 67rem;
   }
 }
 
 @media  (min-width: 1023px) {
   .only-desktop hr {
-    width: 100%;
+    max-width: 86.8rem;
   }
 }
 

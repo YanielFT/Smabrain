@@ -1,11 +1,11 @@
 .layout {
   font-family: "Montserrat", sans-serif;
   display: grid;
-  grid-template-rows: auto fit-content(40rem);
+  grid-template-rows: auto fit-content(50rem);
+  grid-template-columns: 100%;
   grid-template-areas:
   "main"
   "footer";
-  width: 100%;
 }
 
 .main {

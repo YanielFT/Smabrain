@@ -3,31 +3,42 @@ import logo from "../assets/Group 5.svg";
 import logo2 from "../assets/Group.svg";
 import { ApplyForm } from "../components/Appy/ApplyForm";
 import { Offer } from "../components/Offers/Offer";
+import { Await, defer, useLoaderData } from "react-router-dom";
+import LoadingSpinner from "../components/UI/LoadingSpinner";
+import { Suspense } from "react";
+import { getOffers } from "../lib/api";
 
 export const IndexPage = () => {
+  const data = useLoaderData();
+
   return (
     <>
-     <section className={classes.banner}>
+      <section className={classes.banner}>
         <div className={classes.decoration}></div>
 
         <div className={classes.info}>
-
-          <h1>Una oportunidad <br className="tablet"/> <br className="pc"/> que no <br className="mobile"/>  puedes dejar <br className="mobile"/> pasar</h1>
-          <h3>Tu Talento <br/> siempre es bienvenido</h3>
+          <h1>
+            Una oportunidad <br className="tablet" /> <br className="pc" /> que
+            no <br className="mobile" /> puedes dejar <br className="mobile" />{" "}
+            pasar
+          </h1>
+          <h3>
+            Tu Talento <br /> siempre es bienvenido
+          </h3>
         </div>
-      </section> 
+      </section>
 
       <section className={classes.introduction}>
-        <div className={classes['introduction-container']}>
-        <h1>¿Qué es SMaBrain?</h1>
-        <h4>
-          SMaBrain no es más que la incubadora de talentos de SMABIT, un
-          proyecto fundado para dar seguimiento a profesionales del sector del
-          desarrollo de SW y HW, que tengan interés en formar parte de nuestro
-          equipo eventualmente. Profundamente enlazados al proceso de
-          reclutamiento de talentos que necesita nuestra empresa para venideros
-          proyectos.
-        </h4>
+        <div className={classes["introduction-container"]}>
+          <h1>¿Qué es SMaBrain?</h1>
+          <h4>
+            SMaBrain no es más que la incubadora de talentos de SMABIT, un
+            proyecto fundado para dar seguimiento a profesionales del sector del
+            desarrollo de SW y HW, que tengan interés en formar parte de nuestro
+            equipo eventualmente. Profundamente enlazados al proceso de
+            reclutamiento de talentos que necesita nuestra empresa para
+            venideros proyectos.
+          </h4>
         </div>
       </section>
 
@@ -36,7 +47,8 @@ export const IndexPage = () => {
           <img className={classes.logo} src={logo} alt="logo SMaBrain" />
 
           <h2 className={classes["advantage-title"]}>
-            Beneficios de SMaBrain <br/> para los profesionales <br className="mobile"/> que aplican
+            Beneficios de SMaBrain <br /> para los profesionales{" "}
+            <br className="mobile" /> que aplican
           </h2>
           <h4 className={classes["advantage-description"]}>
             Un proceso de aplicación totalmente automatizado y muy intuitivo.{" "}
@@ -65,7 +77,7 @@ export const IndexPage = () => {
               alt="Logo SmaBit"
             />
             <h2 className={classes["advantage-title"]}>
-              Beneficios de trabajar para <br/> SMaBiT GmbH
+              Beneficios de trabajar para <br /> SMaBiT GmbH
             </h2>
             <h4 className={classes["advantage-description"]}>
               Gozarás de un horario flexible y posibilidad de trabajo remoto.
@@ -93,7 +105,6 @@ export const IndexPage = () => {
       <section className={classes["talent-pool"]}>
         <div className={classes["container-talent"]}>
           <div className={classes["talent-pool_info"]}>
-          
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="50"
@@ -110,7 +121,7 @@ export const IndexPage = () => {
 
             <div id="talent-pool" className={classes["container-title"]}>
               <h2 className={`primary-color ${classes.brand}`}>
-                Si estás interesado <br/> en pertenecer a nuestro{" "}
+                Si estás interesado <br /> en pertenecer a nuestro{" "}
               </h2>
               <h2 className={`f-800 primary-color ${classes["brand-talent"]}`}>
                 Talent Pool
@@ -118,7 +129,6 @@ export const IndexPage = () => {
               <h1 className="font-gradient">APLICA AQUí</h1>
             </div>
 
-     
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="50"
@@ -144,21 +154,35 @@ export const IndexPage = () => {
             OFERTAS DE EMPLEO
           </h1>
           <div className={classes["offers-list"]}>
-            <Offer
-              title="Buscamos Desarrollador Backend"
-              description="Con conocimientos
-            avanzados en Lenguaje Java"
-            />
-
-            <Offer
-              title="Buscamos Desarrollador en firmware"
-              description="De Sistemas
-              Embebidos"
-            />
-            <Offer />
+            <Suspense
+              fallback={
+                <div className="loading">
+                  <LoadingSpinner />
+                </div>
+              }
+            >
+              <Await resolve={data.offers}>
+                {(offers) => {
+                  if (offers.length > 0) {
+                    return offers.map((offer) => (
+                      <Offer
+                        title={offer.name}
+                        description={offer.calories}
+                        key={offer.id}
+                        id={offer.id}
+                      />
+                    ));
+                  } else return <Offer />;
+                }}
+              </Await>
+            </Suspense>
           </div>
         </div>
-      </section> 
+      </section>
     </>
   );
 };
+
+export async function loader() {
+  return defer({ offers: getOffers() });
+}

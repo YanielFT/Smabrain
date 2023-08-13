@@ -362,10 +362,11 @@
 
 @media only screen and (min-width: 1024px) {
   .offers-list {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    gap: 3rem;
+    justify-items: center;
+    row-gap: 3rem;
+    column-gap: 0;
   }
 }

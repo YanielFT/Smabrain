@@ -10,12 +10,15 @@
   width: 90%;
   height: 32rem;
   transition: all 0.3s ease-in-out;
+  min-width: 30rem;
 }
 
 .card{
   display: grid;
   grid-template-rows: auto fit-content(3rem);
+  grid-template-columns: 100%;
   padding-bottom: 0;
+  overflow: hidden;
 }
 
 @media (max-width: 400px) {
@@ -43,7 +46,7 @@
 }
 @media (min-width:  1024px) {
   .card{
-    max-height: 39.3rem;
+    max-height: 45rem;
   }
 }
 
@@ -76,6 +79,7 @@
   text-transform: none;
   font-variant: normal;
   width: 10rem;
+
 }
 
 @media only screen and (min-width: 1024px) {
@@ -83,6 +87,7 @@
   .card h1 {
     font-size: 30px;
   }
+
 }
 
 .card h1,

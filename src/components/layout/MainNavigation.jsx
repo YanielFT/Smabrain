@@ -45,8 +45,8 @@ export const MainNavigation = () => {
 
       <nav className={`${classes['menu']} ${toggle ? classes['show'] : ''}`}>
           <ul>
-            <li><a href="#talent-pool">Talent Pool</a></li>
-            <li><a href="#empleo">Ofertas de Empleo</a></li>
+            <li><a href="/#talent-pool">Talent Pool</a></li>
+            <li><a href="/#empleo">Ofertas de Empleo</a></li>
           </ul>
         </nav>
     </>

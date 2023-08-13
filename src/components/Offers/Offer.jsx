@@ -1,6 +1,9 @@
+import { Link, useNavigate } from "react-router-dom";
 import classes from "./Offer.module.css";
 
-export const Offer = ({ title, description }) => {
+export const Offer = ({ id,title, description }) => {
+  const nav = useNavigate()
+
   let container;
   if (title == null) {
     container = (
@@ -16,10 +19,14 @@ export const Offer = ({ title, description }) => {
     );
   }
 
+  const onCLick = () => {
+    nav('/offers/'+id)
+  }
+
   return (
     <>
       {title && description && (
-        <div className={classes.card}>
+        <div onClick={onCLick} className={classes.card}>
           <div>
             <span>*</span>
             <h1>{title}</h1>
