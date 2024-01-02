@@ -18,10 +18,11 @@ const cvValidation = (value) => {
 const initialInputState = {
     value: '',
     isTouched: false,
+    name: 'Adjunte su CV en formato PDF',
 }
 const inputReducer = (state, action) => {
-    if(action.type === 'ON_CHANGE'){
-        return {value: action.value, isTouched: true}
+    if(action.type === 'ON_CHANGE' && action.value.target.files.length > 0){
+        return {value: action.value, isTouched: true, name: action.value.target.files[0].name}
     }
     return initialInputState;
 }
@@ -43,6 +44,7 @@ const useFile = () =>{
    return{
     value: inputState.value,
     isValid,
+    name: inputState.name,
     hasError,
     inputRef,
     onChange,

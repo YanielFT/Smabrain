@@ -1,29 +1,24 @@
 import * as React from "react";
-import PropTypes from "prop-types";
-import { alpha } from "@mui/material/styles";
+import TableContainer from "@mui/material/TableContainer";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
+import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
-import TableSortLabel from "@mui/material/TableSortLabel";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import Paper from "@mui/material/Paper";
 import Switch from "@mui/material/Switch";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { visuallyHidden } from "@mui/utils";
 import { Await, defer, useLoaderData, useNavigate } from "react-router-dom";
 import { deleteOffer, deleteOffers, getOffers } from "../lib/api";
 import { Button, Container } from "@mui/material";
 import LoadingSpinner from "../components/UI/LoadingSpinner";
+import EnhancedTableToolbar from "../components/Table/EnhancedTableToolbar";
+import EnhancedTableHead from "../components/Table/EnhancedTableHead";
+import { useFeedback } from "../hooks/use-feedback";
+import { FeedBack } from "../components/UI/FeedBack";
+import useHttp from "../hooks/use-http";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -42,145 +37,15 @@ function getComparator(order, orderBy) {
 }
 
 function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-      const order = comparator(a[0], b[0]);
-      if (order !== 0) {
-        return order;
-      }
-      return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
-}
-
-const headCells = [
-  {
-    id: "name",
-    numeric: false,
-    disablePadding: true,
-    label: "Título",
-  },
-  {
-    id: "calories",
-    numeric: false,
-    disablePadding: false,
-    label: "Descripción",
-  },
-  {
-    id: "fat",
-    numeric: false,
-    disablePadding: false,
-    label: "Descripción (extensa)",
-  },
-];
-
-function EnhancedTableHead(props) {
-  const {
-    onSelectAllClick,
-    order,
-    orderBy,
-    numSelected,
-    rowCount,
-    onRequestSort,
-  } = props;
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
-
-  return (
-    <TableHead id="tableHead">
-      <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              "aria-label": "select all desserts",
-            }}
-          />
-        </TableCell>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
-            padding={headCell.disablePadding ? "none" : "normal"}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box color={"blue"} component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
-
-EnhancedTableHead.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-};
-
-function EnhancedTableToolbar(props) {
-  const { numSelected, onClick } = props;
-
-  return (
-    <Toolbar
-      sx={{
-        pl: { sm: 1 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(
-              theme.palette.primary.main,
-              theme.palette.action.activatedOpacity
-            ),
-        }),
-      }}
-    >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected === 1
-            ? `${numSelected} Oferta selecccionada`
-            : `${numSelected} Ofertas selecccionados`}
-        </Typography>
-      ) : (
-        <Typography sx={{ flex: "1 1 100%" }} id="tableTitle" component="div">
-          Ofertas de empleos{" "}
-        </Typography>
-      )}
-
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton onClick={onClick}>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <></>
-      )}
-    </Toolbar>
-  );
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) {
+      return order;
+    }
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
 }
 
 export default function AdminPage() {
@@ -189,9 +54,32 @@ export default function AdminPage() {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
+  const { key, message, type, sendFeed } = useFeedback();
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const data = useLoaderData();
   const nav = useNavigate();
+
+  const {
+    data: dataDeleteOne,
+    sendRequest: sendRequestDeleteOne,
+    status: statusDeleteOne,
+    error: errorDeleteOne,
+  } = useHttp(deleteOffer);
+  const {
+    data: dataDeleteMany,
+    sendRequest: sendRequestDeleteMany,
+    status: statusDeleteMany,
+    error: errorDeleteMany,
+  } = useHttp(deleteOffers);
+
+  const [open, setOpen] = React.useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -199,7 +87,7 @@ export default function AdminPage() {
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = (event,rows) => {
+  const handleSelectAllClick = (event, rows) => {
     if (event.target.checked) {
       const newSelected = rows.map((n) => n.id);
       setSelected(newSelected);
@@ -256,15 +144,35 @@ export default function AdminPage() {
 
   const deleteInRow = async (option, id) => {
     if (option === 1) {
-      await deleteOffer(id);
-      nav('/admin');
+      await sendRequestDeleteOne(id);
+      nav("/admin");
       setSelected([]);
-     } else if (option === 2) {
-      await deleteOffers(id);
-      nav('/admin');
+    } else if (option === 2) {
+      await sendRequestDeleteMany(id);
+      nav("/admin");
       setSelected([]);
     }
   };
+
+  React.useEffect(() => {
+    if (!errorDeleteOne && statusDeleteOne === "completed") {
+      sendFeed("SUCCESS", dataDeleteOne);
+      setOpen(true);
+    } else if (errorDeleteOne && statusDeleteOne === "completed") {
+      sendFeed("ERROR", errorDeleteOne);
+      setOpen(true);
+    }
+  }, [dataDeleteOne, errorDeleteOne, statusDeleteOne, sendFeed]);
+
+  React.useEffect(() => {
+    if (!errorDeleteMany && statusDeleteMany === "completed") {
+      sendFeed("SUCCESS", dataDeleteMany);
+      setOpen(true);
+    } else if (errorDeleteMany && statusDeleteMany === "completed") {
+      sendFeed("ERROR", errorDeleteMany);
+      setOpen(true);
+    }
+  }, [dataDeleteMany, errorDeleteMany, statusDeleteMany, sendFeed]);
 
   return (
     <>
@@ -291,7 +199,7 @@ export default function AdminPage() {
                 {(rows) =>
                   rows.length > 0 && (
                     <Table
-                      sx={{ minWidth: 750}}
+                      sx={{ minWidth: 750 }}
                       aria-labelledby="tableTitle"
                       size={dense ? "small" : "medium"}
                     >
@@ -299,7 +207,7 @@ export default function AdminPage() {
                         numSelected={selected.length}
                         order={order}
                         orderBy={orderBy}
-                        onSelectAllClick={(e) => handleSelectAllClick(e,rows)}
+                        onSelectAllClick={(e) => handleSelectAllClick(e, rows)}
                         onRequestSort={handleRequestSort}
                         rowCount={rows.length}
                       />
@@ -405,6 +313,12 @@ export default function AdminPage() {
             Agregar
           </Button>
         </Container>
+        <FeedBack
+          handleClose={handleClose}
+          message={message}
+          open={open}
+          type={type}
+        />
       </Box>
     </>
   );

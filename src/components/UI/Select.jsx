@@ -12,9 +12,9 @@ export const Select = React.forwardRef(
 
     const content = (
       <>
-        <option value="">Nivel Escolar</option>
+        <option key = {'firstSelect'} value="">Nivel Escolar</option>
         {options.map((option) => {
-          return <option value={option.value}>{option.name}</option>;
+          return <option key={option.value} value={option.value}>{option.name}</option>;
         })}
       </>
     );

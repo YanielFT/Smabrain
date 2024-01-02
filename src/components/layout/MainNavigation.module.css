@@ -31,11 +31,15 @@
 
 
 .logo {
-  margin: 0 auto;
+ margin: 0 auto;
+ position: relative;
+ left: 1rem;
 }
 .toggle {
   cursor: pointer;
+
 }
+
 
 .header nav {
   display: none;

@@ -1,4 +1,5 @@
-import { sleep } from "./sleep";
+
+const API = 'http://localhost:8080/'
 
 function createData(id, name, calories, fat) {
   return {
@@ -10,10 +11,9 @@ function createData(id, name, calories, fat) {
 }
 
 export async function getOffers() {
-  // await sleep(2000);
-  const response = await fetch("http://localhost:8080/api/v1/offers/");
+  const response = await fetch(API + "api/v1/offers/");
   if (!response.ok) {
-    // throw { message: "Failed to fetch posts.", status: 500 };
+     throw { message: "Failed to fetch posts.", status: 500 };
   }
   const dataJson = await response.json();
 
@@ -35,9 +35,9 @@ export async function getOffers() {
 
 export async function getOffer({ params }) {
   const id = params.id;
-  const response = await fetch("http://localhost:8080/api/v1/offers/"+id);
+  const response = await fetch(API + "api/v1/offers/"+id);
   if (!response.ok) {
-    // throw { message: "Failed to fetch post.", status: 500 };
+      throw { message: "Failed to fetch post.", status: 500 };
   }
 
   return response.json();
@@ -47,10 +47,10 @@ export async function saveOffer(post) {
  
   
  if(post.title.trim().length < 5 || post.desc.trim().length < 5 || post.bigDesc.trim().length < 5 ){
-  throw {message: 'Datos imcompletos o incorrectos', status:422 }
+  throw {message: 'Existen campos con longitud menor a 5', status:422 }
  }
  
-  const response = await fetch("http://localhost:8080/api/v1/offers/save", {
+  const response = await fetch(API + "api/v1/offers/save", {
     method: "POST",
     body: JSON.stringify(post),
     headers: {
@@ -66,7 +66,7 @@ export async function saveOffer(post) {
 
 export async function deleteOffer( id ) {
 
-  const response = await fetch("http://localhost:8080/api/v1/offers/" + id, {
+  const response = await fetch(API + "api/v1/offers/" + id, {
     method: "DELETE",
     body: null,
     headers: {
@@ -74,17 +74,18 @@ export async function deleteOffer( id ) {
     },
   });
 
+    const data = await response.json();
+
   if (!response.ok) {
-    throw { message: "Could not save post.", status: 500 };
+    throw new Error(data.error || 'Error al enviar los datos');
   }
+
+  return data.message;
 }
 
 export async function deleteOffers( id ) {
-console.log(...id)
 
-const body = new FormData();
-body.append("id", [1,2])
-  const response = await fetch("http://localhost:8080/api/v1/offers/some/" + id, {
+  const response = await fetch(API + "api/v1/offers/some/" + id, {
     method: "DELETE",
     body:null, 
     headers: {
@@ -92,9 +93,13 @@ body.append("id", [1,2])
     },
   });
 
+  const data = await response.json();
+
   if (!response.ok) {
-    throw { message: "Could not save post.", status: 500 };
+    throw new Error(data.error || 'Error al enviar los datos');
   }
+
+  return data.message;
 }
 
 
@@ -119,7 +124,7 @@ export async function saveContact({
   }
   body.append("studies", studiesValue);
 
-  const response = await fetch("http://localhost:8080/api/v1/contacts/save", {
+  const response = await fetch(API + "api/v1/contacts/save", {
     method: "POST",
     body,
     headers: {
@@ -129,7 +134,6 @@ export async function saveContact({
 
   const data = await response.json();
   
-  console.log(data);
   if (!response.ok) {
     throw new Error(data.error || 'Error al enviar los datos');
   }

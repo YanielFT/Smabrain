@@ -13,16 +13,17 @@ import useInput from "../hooks/use-input";
 import useFile from "../hooks/use-file";
 import LoadingSpinner from "../components/UI/LoadingSpinner";
 import { getOffer, saveContact } from "../lib/api";
+import NotFound from "./NotFound";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export const OfferDetailPage = () => {
-  const {offer} = useLoaderData();
+const OfferDetailPage = () => {
+  const { offer } = useLoaderData();
   const captchaRef = useRef(null);
   const { data, sendRequest, status, error } = useHttp(saveContact);
-
+  
   /* Feedback hooks */
   const [open, setOpen] = useState(false);
   const handleClose = (event, reason) => {
@@ -57,6 +58,7 @@ export const OfferDetailPage = () => {
     hasError: hasCvError,
     onChange: cvChangeHandler,
     inputRef: cvRef,
+    name: cvName,
     reset: resetCv,
   } = useFile();
 
@@ -99,88 +101,99 @@ export const OfferDetailPage = () => {
   }, [data, error, status, sendFeed]);
 
   return (
-    <section className={classes.offer}>
-      <h1 className={`font-gradient`}>Oferta de empleo</h1>
-      <div className={classes["offer-container"]}>
-        <Suspense
-          fallback={
-            <div className="loading">
-              <LoadingSpinner />
-            </div>
-          }
-        >
-          <Await resolve={offer}>
-            {(offer) => (
-              <div className={classes.card}>
-                <span>*</span>
-                <h1 className={classes["offer-title"]}>{offer.title}</h1>
-                <h2 className={classes["offer-subtitle"]}>{offer.desc}</h2>
-                <p className={classes["offer-description"]}>{offer.bigDesc}</p>
-              </div>
-            )}
-          </Await>
-        </Suspense>
+    <>
+      {offer &&
+        <section className={classes.offer}>
+          <h1 className={`font-gradient`}>Oferta de empleo</h1>
+          <div className={classes["offer-container"]}>
+            <Suspense
+              fallback={
+                <div className="loading">
+                  <LoadingSpinner />
+                </div>
+              }
+            >
+              <Await resolve={offer} errorElement={<NotFound />}>
+                {(offer) => (
+                  <>
+                    <div className={classes.card}>
+                      <span>*</span>
+                      <h1 className={classes["offer-title"]}>{offer.title}</h1>
+                      <h2 className={classes["offer-subtitle"]}>{offer.desc}</h2>
+                      <p className={classes["offer-description"]}>{offer.bigDesc}</p>
+                    </div>
 
-        <form
-          className={classes.form}
-          onSubmit={submitedHanlder}
-          encType="multipart/form-data"
-        >
-          {status === "pending" && (
-            <div className="loading">
-              <LoadingSpinner />
-            </div>
-          )}
-          <Input
-            type="text"
-            id="nombre"
-            placeholder="Nombre y apellidos"
-            value={nameValue}
-            onChange={nameChangeHandler}
-            onBlur={nameBlurHandler}
-            ref={nameRef}
-          />
-          <Input
-            type="email"
-            id="emai"
-            placeholder="E-mail"
-            value={emailValue}
-            onChange={emailChangeHandler}
-            onBlur={emailBlurHandler}
-            ref={emailRef}
-          />
+                    <form
+                      className={classes.form}
+                      onSubmit={submitedHanlder}
+                      encType="multipart/form-data"
+                    >
+                      {status === "pending" && (
+                        <div className="loading">
+                          <LoadingSpinner />
+                        </div>
+                      )}
+                      <Input
+                        type="text"
+                        id="nombre"
+                        placeholder="Nombre y apellidos"
+                        value={nameValue}
+                        onChange={nameChangeHandler}
+                        onBlur={nameBlurHandler}
+                        ref={nameRef}
+                      />
+                      <Input
+                        type="email"
+                        id="emai"
+                        placeholder="E-mail"
+                        value={emailValue}
+                        onChange={emailChangeHandler}
+                        onBlur={emailBlurHandler}
+                        ref={emailRef}
+                      />
 
-          <Cv
-            id="cv"
-            placeholder="Adjunte su CV en formato PDF"
-            setValue={cvChangeHandler}
-            ref={cvRef}
-            value={cvValue}
-          />
+                      <Cv
+                        id="cv"
+                        placeholder={cvName}
+                        setValue={cvChangeHandler}
+                        ref={cvRef}
+                        value={cvValue}
+                      />
 
-          <ReCAPTCHA
-            className="recaptcha"
-            sitekey={process.env.REACT_APP_SITE_KEY}
-            ref={captchaRef}
-          />
+                      <ReCAPTCHA
+                        className="recaptcha"
+                        sitekey={process.env.REACT_APP_SITE_KEY}
+                        ref={captchaRef}
+                      />
 
-          <Snackbar
-            key={key}
-            open={open}
-            autoHideDuration={6000}
-            onClose={handleClose}
-          >
-            <Alert onClose={handleClose} severity={type} sx={{ width: "100%" }}>
-              {message}
-            </Alert>
-          </Snackbar>
-          <ApplyButton>Aplicar</ApplyButton>
-        </form>
-      </div>
-    </section>
+                      <Snackbar
+                        key={key}
+                        open={open}
+                        autoHideDuration={6000}
+                        onClose={handleClose}
+                      >
+                        <Alert onClose={handleClose} severity={type} sx={{ width: "100%" }}>
+                          {message}
+                        </Alert>
+                      </Snackbar>
+                      <ApplyButton>Aplicar</ApplyButton>
+                    </form>
+                  </>
+                )}
+              </Await>
+            </Suspense>
+
+
+          </div>
+        </section>
+      }
+    </>
   );
 };
 
-export async function loader({params}) {
-  return defer({ offer: getOffer({params}) });
+export async function loader({ params }) {
+  return defer({ offer: getOffer({ params }) });
 }
+
+
+export default OfferDetailPage;

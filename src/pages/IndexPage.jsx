@@ -8,7 +8,7 @@ import LoadingSpinner from "../components/UI/LoadingSpinner";
 import { Suspense } from "react";
 import { getOffers } from "../lib/api";
 
-export const IndexPage = () => {
+const IndexPage = () => {
   const data = useLoaderData();
 
   return (
@@ -186,3 +186,5 @@ export const IndexPage = () => {
 export async function loader() {
   return defer({ offers: getOffers() });
 }
+
+export default IndexPage;

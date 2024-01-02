@@ -152,3 +152,5 @@ export async function action({ request }) {
   }
   return redirect("/admin");
 }
+
+export default OfferPostPage;

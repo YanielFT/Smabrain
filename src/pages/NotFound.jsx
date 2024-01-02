@@ -5,7 +5,7 @@ export default function NotFound() {
     const error = useRouteError();
   return (
     <div>
-      <h1>{error.status} Página de error</h1>
+      <h1>{error && error.status} Página de error</h1>
       <p className={classes["zoom-area"]}>
          {error ? error.message : "Ha ocurrido un error"}
       </p>

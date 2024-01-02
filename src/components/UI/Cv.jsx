@@ -26,6 +26,7 @@ export const Cv = React.forwardRef(
           onChange={(e) => setValue(e)}
           type="file"
           id={id}
+          
         />
       </>
     );

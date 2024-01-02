@@ -7,12 +7,11 @@ import useFile from "../../hooks/use-file";
 import LoadingSpinner from "../UI/LoadingSpinner";
 import classes from "../Appy/ApplyForm.module.css";
 import { saveContact } from "../../lib/api";
-import { forwardRef, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import useHttp from "../../hooks/use-http";
-import Snackbar from "@mui/material/Snackbar";
 import { useFeedback } from "../../hooks/use-feedback";
-import MuiAlert from "@mui/material/Alert";
+import { FeedBack } from "../UI/FeedBack";
 
 const OPTIONS = [
   {
@@ -28,9 +27,6 @@ const OPTIONS = [
     name: "Bachiller",
   },
 ];
-const Alert = forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
 
 export const ApplyForm = () => {
   const captchaRef = useRef(null);
@@ -72,7 +68,7 @@ export const ApplyForm = () => {
     onChange: phoneChangeHandler,
     inputRef: phoneRef,
     reset: resetPhone,
-  } = useInput((value) => value.trim().length >=8 );
+  } = useInput((value) => value.trim().length >= 8);
 
   const {
     value: studiesValue,
@@ -95,6 +91,7 @@ export const ApplyForm = () => {
   const {
     value: cvValue,
     hasError: hasCvError,
+    name: cvName,
     onChange: cvChangeHandler,
     inputRef: cvRef,
     reset: resetCv,
@@ -126,7 +123,7 @@ export const ApplyForm = () => {
         espcValue,
         studiesValue,
         token,
-      });   
+      });
     }
   };
 
@@ -184,7 +181,7 @@ export const ApplyForm = () => {
         onChange={phoneChangeHandler}
         onBlur={phoneBlurHandler}
         ref={phoneRef}
-        pattern='(\d{8})'
+        pattern="(\d{8})"
       />
       <Select
         options={OPTIONS}
@@ -206,25 +203,18 @@ export const ApplyForm = () => {
       />
       <Cv
         id="cv"
-        placeholder="Adjunte su CV en formato PDF"
+        placeholder={cvName}
         setValue={cvChangeHandler}
         ref={cvRef}
         value={cvValue}
       />
-      <ReCAPTCHA
-        sitekey={process.env.REACT_APP_SITE_KEY}
-        ref={captchaRef}
-      />
-      <Snackbar
-        key={key}
+      <ReCAPTCHA sitekey={process.env.REACT_APP_SITE_KEY} ref={captchaRef} />
+      <FeedBack
+        handleClose={handleClose}
+        message={message}
         open={open}
-        autoHideDuration={6000}
-        onClose={handleClose}
-      >
-        <Alert onClose={handleClose} severity={type} sx={{ width: "100%" }}>
-          {message}
-        </Alert>
-      </Snackbar>
+        type={type}
+      />
 
       <ApplyButton>Aplicar</ApplyButton>
     </form>
