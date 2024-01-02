@@ -163,11 +163,11 @@ const IndexPage = () => {
             >
               <Await resolve={data.offers}>
                 {(offers) => {
-                  if (offers.length > 0) {
+                  if (true) {
                     return offers.map((offer) => (
                       <Offer
-                        title={offer.name}
-                        description={offer.calories}
+                        title={offer.title}
+                        description={offer.desc}
                         key={offer.id}
                         id={offer.id}
                       />
