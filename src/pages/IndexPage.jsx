@@ -163,7 +163,7 @@ const IndexPage = () => {
             >
               <Await resolve={data.offers}>
                 {(offers) => {
-                  if (true) {
+                  if (offers.length > 0) {
                     return offers.map((offer) => (
                       <Offer
                         title={offer.title}
