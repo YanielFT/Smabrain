@@ -192,7 +192,7 @@ const OfferDetailPage = () => {
 };
 
 export async function loader({ params }) {
-  return defer({ offer: getOffer({ params }) });
+ return defer({ offer: getOffer({ params }) });
 }
 
 

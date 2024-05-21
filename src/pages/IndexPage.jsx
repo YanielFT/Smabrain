@@ -166,8 +166,8 @@ const IndexPage = () => {
                   if (offers.length > 0) {
                     return offers.map((offer) => (
                       <Offer
-                        title={offer.name}
-                        description={offer.calories}
+                        title={offer.title}
+                        description={offer.desc}
                         key={offer.id}
                         id={offer.id}
                       />
